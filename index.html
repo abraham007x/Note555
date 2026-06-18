@@ -300,6 +300,32 @@
       z-index: 0;
     }
 
+    .flower-burst {
+      position: absolute;
+      left: 50%;
+      bottom: 210px;
+      width: 180px;
+      height: 180px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 13;
+    }
+
+    .flower {
+      position: absolute;
+      opacity: 0;
+      left: 50%;
+      bottom: 0;
+      font-size: 132px;
+      filter: drop-shadow(0 16px 24px rgba(236, 72, 153, 0.24));
+      transform: translate(-50%, 20px) scale(0.7) rotate(0deg);
+    }
+
+    .flower--hero {
+      left: 50%;
+      bottom: 0;
+    }
+
     .controls {
       display: flex;
       justify-content: center;
@@ -374,24 +400,18 @@
     }
 
     .scene.stage-3 .paper-1,
-    .scene.stage-4 .paper-1,
-    .scene.stage-5 .paper-1 {
+    .scene.stage-4 .paper-1 {
       opacity: 0.45;
       z-index: 10;
       transform: translate(-62%, -98px) scale(0.94) rotate(-7deg);
     }
 
-    .scene.stage-3 .paper-2 {
+    .scene.stage-3 .paper-2,
+    .scene.stage-4 .paper-2 {
       opacity: 1;
       z-index: 12;
       box-shadow: 0 28px 44px rgba(91, 33, 58, 0.16);
       transform: translate(-50%, -170px) rotate(1.5deg);
-    }
-
-    .scene.stage-4 .paper-2 {
-      opacity: 0.45;
-      z-index: 10;
-      transform: translate(-38%, -104px) scale(0.94) rotate(6deg);
     }
 
     .scene.stage-4 .paper-3 {
@@ -429,6 +449,27 @@
       transform: translateX(-50%) translateY(10px);
     }
 
+    .scene.stage-4 .flower {
+      animation: bloomUp 0.95s ease forwards;
+    }
+
+    @keyframes bloomUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 28px) scale(0.55) rotate(-10deg);
+      }
+
+      60% {
+        opacity: 1;
+        transform: translate(-50%, -8px) scale(1.08) rotate(6deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1) rotate(0deg);
+      }
+    }
+
     @media (max-width: 640px) {
       body {
         place-items: center;
@@ -450,6 +491,16 @@
       .paper-stack {
         bottom: 104px;
         width: 84%;
+      }
+
+      .flower-burst {
+        bottom: 174px;
+        width: 146px;
+        height: 146px;
+      }
+
+      .flower {
+        font-size: 108px;
       }
 
       .flap {
@@ -490,20 +541,15 @@
 
       .scene.stage-2 .paper-1,
       .scene.stage-3 .paper-2,
+      .scene.stage-4 .paper-2,
       .scene.stage-4 .paper-3,
       .scene.stage-5 .paper-4 {
         transform: translate(-50%, -150px) rotate(-1deg);
       }
 
       .scene.stage-3 .paper-1,
-      .scene.stage-4 .paper-1,
-      .scene.stage-5 .paper-1 {
+      .scene.stage-4 .paper-1 {
         transform: translate(-60%, -90px) scale(0.92) rotate(-6deg);
-      }
-
-      .scene.stage-4 .paper-2,
-      .scene.stage-5 .paper-2 {
-        transform: translate(-40%, -94px) scale(0.92) rotate(5deg);
       }
 
       .scene.stage-5 .paper-3 {
@@ -546,6 +592,16 @@
         width: 88%;
       }
 
+      .flower-burst {
+        bottom: 164px;
+        width: 126px;
+        height: 126px;
+      }
+
+      .flower {
+        font-size: 92px;
+      }
+
       .paper {
         min-height: 176px;
         padding: 16px 16px 14px;
@@ -574,20 +630,15 @@
 
       .scene.stage-2 .paper-1,
       .scene.stage-3 .paper-2,
+      .scene.stage-4 .paper-2,
       .scene.stage-4 .paper-3,
       .scene.stage-5 .paper-4 {
         transform: translate(-50%, -138px) rotate(-1deg);
       }
 
       .scene.stage-3 .paper-1,
-      .scene.stage-4 .paper-1,
-      .scene.stage-5 .paper-1 {
+      .scene.stage-4 .paper-1 {
         transform: translate(-60%, -84px) scale(0.91) rotate(-6deg);
-      }
-
-      .scene.stage-4 .paper-2,
-      .scene.stage-5 .paper-2 {
-        transform: translate(-40%, -88px) scale(0.91) rotate(5deg);
       }
 
       .scene.stage-5 .paper-3 {
@@ -619,30 +670,14 @@
         <div class="paper-stack">
           <article class="paper paper-1">
             <small>ฉบับที่ 1</small>
-            <p>ช่วงนี้เห็นปอตั้งใจทำงานมาก
-เลยอยากบอกก่อนเลยว่า สู้ ๆ นะ
-เหนื่อยก็พักบ้าง คนเก่งก็มีสิทธิ์เหนื่อยได้เหมือนกัน</p>
+            <p>วันนี้คงหนักกับปอมากเลย
+โดนพูดแบบนั้นใครก็เสียใจได้ มันไม่แปลว่าปอไม่เก่งนะ พี่อยู่ข้าง ๆ เสมอ</p>
           </article>
 
           <article class="paper paper-2">
             <small>ฉบับที่ 2</small>
-            <p>ถ้าวันไหนงานหนัก หรืออยากบ่นอะไรนิดหน่อย
-ทักมาหาพี่ได้เสมอนะ
-ไม่ต้องเกรงใจ พี่เต็มใจฟัง</p>
-          </article>
-
-          <article class="paper paper-3">
-            <small>ฉบับที่ 3</small>
-            <p>จริง ๆ ที่พี่แวะมาคุยบ่อย
-ไม่ได้เป็นอะไรหรอก
-แค่อยากรู้ว่าทำอะไรอยู่ ไว้วันศุกร์เราเจอกันนะ</p>
-          </article>
-
-          <article class="paper paper-4">
-            <small>ฉบับสุดท้าย</small>
-            <p>ถ้าปอไม่อึดอัดนะ
-พี่อยากค่อย ๆ ทำความรู้จักมากกว่านี้
-แล้วถ้าอนุญาต... ขอพี่จีบได้ไหม</p>
+            <p>วันนี้ปอเก่งมากกก
+พี่มีอะไรมาให้</p>
           </article>
         </div>
 
@@ -657,6 +692,10 @@
         <div class="to">
           <div class="label">To</div>
           <div class="name">ปอ</div>
+        </div>
+
+        <div class="flower-burst" aria-hidden="true">
+          <span class="flower flower--hero">💐</span>
         </div>
 
         <div class="floor"></div>
@@ -683,24 +722,22 @@
       "แตะเปิดซอง",
       "เปิดอีกนิด",
       "ดึงจดหมายใบแรก",
-      "มีอีกใบ",
-      "ยังไม่หมดนะ",
+      "เปิดของที่ให้",
       "อ่านใหม่อีกรอบ"
     ];
 
     const hintLabels = [
       "กดช้า ๆ ได้เลย เดี๋ยวข้อความจะค่อย ๆ ออกมาทีละใบ",
-      "ซองเปิดแล้ว เหลือแค่กล้าอ่านต่อ",
-      "รุ่นพี่เริ่มหยอดแล้วนะ",
-      "ยิ่งเปิด ยิ่งชัด",
-      "ใกล้ถึงใจความจริงแล้ว",
-      "ถ้าเขินก็เริ่มใหม่ได้เสมอ"
+      "ซองเปิดแล้ว วันนี้มีแค่สองฉบับนะ",
+      "ฉบับแรกเขียนไว้ปลอบปอ",
+      "ฉบับสองมาก่อน แล้วคลิกสุดท้ายค่อยรับดอกไม้",
+      "ดอกไม้นี้ให้ปอคนเก่ง"
     ];
 
     let stage = 0;
 
     function advanceStage() {
-      stage = stage === 5 ? 0 : stage + 1;
+      stage = stage === 4 ? 0 : stage + 1;
       renderStage();
     }
 
