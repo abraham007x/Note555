@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Por</title>
+  <style>
+    :root {
+      --bg-a: #fff8ef;
+      --bg-b: #ffe5ee;
+      --bg-c: #fbe9ff;
+      --ink: #4b2f39;
+      --soft: #7f5f68;
+      --rose: #ec4899;
+      --peach: #fb923c;
+      --envelope: #fff4ea;
+      --envelope-edge: #efcfbf;
+      --paper: #fffdfa;
+      --shadow: rgba(91, 33, 58, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: start center;
+      padding:
+        max(20px, env(safe-area-inset-top))
+        max(16px, env(safe-area-inset-right))
+        max(34px, env(safe-area-inset-bottom))
+        max(16px, env(safe-area-inset-left));
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(251, 146, 60, 0.22), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--bg-a), var(--bg-b) 55%, var(--bg-c));
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .glow {
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 999px;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .glow.one {
+      top: -120px;
+      left: -90px;
+      background: #fdba74;
+    }
+
+    .glow.two {
+      right: -90px;
+      bottom: -120px;
+      background: #f9a8d4;
+    }
+
+    .wrap {
+      width: min(100%, 980px);
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(236, 72, 153, 0.14);
+      color: #be185d;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .intro {
+      margin-bottom: 14px;
+    }
+
+    .intro h1 {
+      margin: 14px 0 8px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.08;
+      font-weight: 800;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .scene {
+      position: relative;
+      height: 820px;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      perspective: 1400px;
+    }
+
+    .memory-wall {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      width: 780px;
+      height: 360px;
+      transform: translateX(-50%);
+      transform-origin: top center;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .memory-card {
+      position: absolute;
+      padding: 10px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 38px rgba(91, 33, 58, 0.14);
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+    }
+
+    .memory-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .memory-photo {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+    }
+
+    .memory-card--1 {
+      left: 56px;
+      top: 62px;
+      width: 138px;
+      height: 194px;
+      transform: rotate(-12deg);
+    }
+
+    .memory-card--1 .memory-photo {
+      object-position: 84% center;
+    }
+
+    .memory-card--2 {
+      left: 184px;
+      top: 18px;
+      width: 166px;
+      height: 228px;
+      transform: rotate(-5deg);
+    }
+
+    .memory-card--2 .memory-photo {
+      object-position: center 24%;
+    }
+
+    .memory-card--3 {
+      left: 356px;
+      top: 64px;
+      width: 150px;
+      height: 206px;
+      transform: rotate(3deg);
+    }
+
+    .memory-card--3 .memory-photo {
+      object-position: 74% center;
+    }
+
+    .memory-card--4 {
+      right: 160px;
+      top: 22px;
+      width: 172px;
+      height: 232px;
+      transform: rotate(7deg);
+    }
+
+    .memory-card--4 .memory-photo {
+      object-position: 86% center;
+    }
+
+    .memory-card--5 {
+      right: 48px;
+      top: 78px;
+      width: 138px;
+      height: 194px;
+      transform: rotate(12deg);
+    }
+
+    .memory-card--5 .memory-photo {
+      object-position: center center;
+    }
+
+    .memory-card--6 {
+      left: 278px;
+      top: 212px;
+      width: 232px;
+      height: 138px;
+      transform: rotate(-2deg);
+    }
+
+    .memory-card--6 .memory-photo {
+      object-position: center 26%;
+    }
+
+    .envelope-area {
+      position: relative;
+      width: min(92vw, 520px);
+      height: 420px;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      z-index: 3;
+    }
+
+    .paper-stack {
+      position: absolute;
+      left: 50%;
+      bottom: 118px;
+      width: 76%;
+      transform: translateX(-50%);
+    }
+
+    .paper {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 100%;
+      min-height: 210px;
+      padding: 24px 24px 22px;
+      border-radius: 20px 20px 14px 14px;
+      background: linear-gradient(180deg, #fffefb, var(--paper));
+      border: 1px solid rgba(120, 83, 83, 0.12);
+      box-shadow: 0 20px 34px rgba(91, 33, 58, 0.12);
+      text-align: left;
+      transform: translate(-50%, 150px) scale(0.96);
+      opacity: 0;
+      transition: transform 0.7s ease, opacity 0.45s ease, box-shadow 0.4s ease;
+    }
+
+    .paper small {
+      display: block;
+      color: #be185d;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .paper p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.82;
+      white-space: pre-line;
+    }
+
+    .paper-1 {
+      z-index: 3;
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 260px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #fff8f0, var(--envelope));
+      border: 1px solid var(--envelope-edge);
+      box-shadow: 0 26px 46px var(--shadow);
+    }
+
+    .seal {
+      position: absolute;
+      left: 50%;
+      top: 62px;
+      transform: translateX(-50%);
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 35% 30%, #f9a8d4, #ec4899 70%);
+      color: white;
+      font-size: 30px;
+      box-shadow: 0 12px 25px rgba(236, 72, 153, 0.28);
+      z-index: 7;
+      transition: transform 0.45s ease, opacity 0.35s ease;
+    }
+
+    .seal span {
+      transform: translateY(-1px);
+    }
+
+    .flap {
+      position: absolute;
+      left: 50%;
+      top: 32px;
+      width: 0;
+      height: 0;
+      transform: translateX(-50%) rotateX(0deg);
+      transform-origin: top center;
+      border-left: 260px solid transparent;
+      border-right: 260px solid transparent;
+      border-bottom: 170px solid #ffe6d6;
+      filter: drop-shadow(0 10px 12px rgba(91, 33, 58, 0.08));
+      z-index: 6;
+      transition: transform 0.8s ease;
+      backface-visibility: hidden;
+    }
+
+    .front {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 240px;
+      overflow: hidden;
+      z-index: 8;
+      border-radius: 0 0 26px 26px;
+    }
+
+    .front::before,
+    .front::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(180deg, #ffeede, #ffe1cc);
+      border: 1px solid var(--envelope-edge);
+    }
+
+    .front::before {
+      left: 0;
+      clip-path: polygon(0 100%, 0 0, 100% 100%);
+      border-right: 0;
+      border-top: 0;
+    }
+
+    .front::after {
+      right: 0;
+      clip-path: polygon(100% 100%, 0 100%, 100% 0);
+      border-left: 0;
+      border-top: 0;
+    }
+
+    .front-center {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 86%;
+      background: linear-gradient(180deg, #fff1e4, #ffe7d4);
+      clip-path: polygon(50% 44%, 100% 100%, 0 100%);
+      border-left: 1px solid var(--envelope-edge);
+      border-right: 1px solid var(--envelope-edge);
+      border-bottom: 1px solid var(--envelope-edge);
+    }
+
+    .to {
+      position: absolute;
+      left: 50%;
+      bottom: 62px;
+      transform: translateX(-50%);
+      z-index: 9;
+      text-align: center;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .to .label {
+      font-size: 14px;
+      color: #9a3412;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .to .name {
+      font-size: 38px;
+      font-weight: 800;
+      margin-top: 6px;
+      color: #7c2d12;
+    }
+
+    .bouquet-burst {
+      position: absolute;
+      left: 50%;
+      bottom: 164px;
+      width: 288px;
+      height: 336px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 13;
+      opacity: 0;
+    }
+
+    .bouquet {
+      position: absolute;
+      inset: 0;
+      transform: translateY(36px) scale(0.72);
+      transform-origin: center bottom;
+      filter: drop-shadow(0 24px 32px rgba(91, 33, 58, 0.2));
+      opacity: 0;
+    }
+
+    .rose-cluster {
+      position: absolute;
+      inset: 0 0 42px 0;
+      z-index: 3;
+    }
+
+    .bouquet-rose {
+      position: absolute;
+      bottom: 20px;
+      width: 114px;
+      height: auto;
+      transform-origin: center bottom;
+    }
+
+    .bouquet-rose--1 {
+      left: 14px;
+      bottom: 98px;
+      transform: rotate(-18deg) scale(0.94);
+    }
+
+    .bouquet-rose--2 {
+      left: 54px;
+      bottom: 122px;
+      transform: rotate(-8deg) scale(1.02);
+    }
+
+    .bouquet-rose--3 {
+      left: 92px;
+      bottom: 128px;
+      transform: rotate(0deg) scale(1.08);
+    }
+
+    .bouquet-rose--4 {
+      right: 54px;
+      bottom: 120px;
+      transform: rotate(8deg) scale(1.02);
+    }
+
+    .bouquet-rose--5 {
+      right: 14px;
+      bottom: 98px;
+      transform: rotate(18deg) scale(0.94);
+    }
+
+    .bouquet-rose--6 {
+      left: 96px;
+      bottom: 84px;
+      width: 104px;
+      transform: rotate(0deg) scale(0.92);
+    }
+
+    .bouquet-wrap {
+      position: absolute;
+      background: linear-gradient(180deg, #fffdfa, #f4ece5);
+      border: 1px solid rgba(222, 201, 191, 0.92);
+      box-shadow: 0 14px 24px rgba(91, 33, 58, 0.08);
+    }
+
+    .bouquet-wrap--back {
+      left: 50%;
+      bottom: 72px;
+      width: 204px;
+      height: 142px;
+      transform: translateX(-50%);
+      clip-path: polygon(50% 0, 100% 46%, 82% 100%, 18% 100%, 0 46%);
+      z-index: 1;
+    }
+
+    .bouquet-wrap--front-left {
+      left: 34px;
+      bottom: 24px;
+      width: 128px;
+      height: 150px;
+      transform: rotate(-8deg);
+      clip-path: polygon(18% 0, 100% 18%, 74% 100%, 0 84%);
+      z-index: 4;
+    }
+
+    .bouquet-wrap--front-right {
+      right: 34px;
+      bottom: 24px;
+      width: 128px;
+      height: 150px;
+      transform: rotate(8deg);
+      clip-path: polygon(0 18%, 82% 0, 100% 84%, 26% 100%);
+      z-index: 4;
+    }
+
+    .bouquet-band {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      width: 64px;
+      height: 104px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, rgba(236, 72, 153, 0.92), rgba(251, 146, 60, 0.92));
+      border-radius: 16px 16px 22px 22px;
+      z-index: 5;
+    }
+
+    .bouquet-bow {
+      position: absolute;
+      left: 50%;
+      bottom: 104px;
+      width: 92px;
+      height: 52px;
+      transform: translateX(-50%);
+      z-index: 6;
+    }
+
+    .bouquet-bow .loop {
+      position: absolute;
+      top: 8px;
+      width: 36px;
+      height: 24px;
+      border: 4px solid #ec4899;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 70% 55% 70% 55%;
+    }
+
+    .bouquet-bow .loop.left {
+      left: 8px;
+      transform: rotate(-24deg);
+    }
+
+    .bouquet-bow .loop.right {
+      right: 8px;
+      transform: scaleX(-1) rotate(-24deg);
+    }
+
+    .bouquet-bow .knot {
+      position: absolute;
+      left: 50%;
+      top: 14px;
+      width: 18px;
+      height: 18px;
+      transform: translateX(-50%) rotate(45deg);
+      background: linear-gradient(135deg, #ec4899, #fb923c);
+      border-radius: 6px;
+    }
+
+    .floor {
+      position: absolute;
+      left: 50%;
+      bottom: 4px;
+      transform: translateX(-50%);
+      width: min(560px, 100%);
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(91, 33, 58, 0.16), transparent 70%);
+      filter: blur(12px);
+      z-index: 0;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .next-btn {
+      color: #fff;
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      box-shadow: 0 16px 28px rgba(236, 72, 153, 0.26);
+    }
+
+    .reset-btn {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(124, 92, 92, 0.16);
+    }
+
+    .hint {
+      margin-top: 14px;
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    .click-note {
+      margin-top: 8px;
+      color: #9f1239;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .scene.stage-1 .flap,
+    .scene.stage-2 .flap {
+      transform: translateX(-50%) rotateX(178deg);
+    }
+
+    .scene.stage-1 .seal,
+    .scene.stage-2 .seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.8);
+    }
+
+    .scene.stage-1 .paper-1 {
+      opacity: 1;
+      z-index: 12;
+      box-shadow: 0 28px 44px rgba(91, 33, 58, 0.16);
+      transform: translate(-50%, -172px) rotate(-1.5deg);
+    }
+
+    .scene.stage-2 .paper-1 {
+      opacity: 0.42;
+      z-index: 10;
+      transform: translate(-58%, -106px) scale(0.94) rotate(-6deg);
+    }
+
+    .scene.stage-1 .to,
+    .scene.stage-2 .to {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+
+    .scene.stage-2 .bouquet-burst {
+      opacity: 1;
+    }
+
+    .scene.stage-2 .bouquet {
+      animation: bouquetPop 1s ease forwards;
+    }
+
+    @keyframes bouquetPop {
+      0% {
+        opacity: 0;
+        transform: translateY(36px) scale(0.58) rotate(-8deg);
+      }
+
+      58% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1.08) rotate(5deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .scene {
+        height: 792px;
+      }
+
+      .memory-wall {
+        transform: translateX(-50%) scale(0.88);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        place-items: center;
+      }
+
+      .wrap {
+        width: 100%;
+      }
+
+      .scene {
+        height: 760px;
+      }
+
+      .memory-wall {
+        top: 28px;
+        transform: translateX(-50%) scale(0.64);
+      }
+
+      .envelope-area {
+        width: min(100%, 390px);
+        height: 330px;
+      }
+
+      .paper-stack {
+        bottom: 104px;
+        width: 84%;
+      }
+
+      .bouquet-burst {
+        bottom: 142px;
+        width: 214px;
+        height: 266px;
+      }
+
+      .bouquet-rose {
+        width: 84px;
+      }
+
+      .bouquet-rose--6 {
+        width: 76px;
+      }
+
+      .bouquet-wrap--back {
+        width: 154px;
+        height: 116px;
+      }
+
+      .bouquet-wrap--front-left,
+      .bouquet-wrap--front-right {
+        width: 96px;
+        height: 122px;
+        bottom: 18px;
+      }
+
+      .bouquet-band {
+        width: 54px;
+        height: 90px;
+      }
+
+      .bouquet-bow {
+        bottom: 92px;
+        width: 76px;
+      }
+
+      .flap {
+        border-left-width: 190px;
+        border-right-width: 190px;
+        border-bottom-width: 140px;
+      }
+
+      .paper {
+        width: 92%;
+        min-height: 188px;
+        padding: 18px 18px 16px;
+      }
+
+      .paper p {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .to .name {
+        font-size: 30px;
+      }
+
+      .controls {
+        gap: 10px;
+      }
+
+      button {
+        min-width: 150px;
+        padding: 13px 18px;
+        font-size: 15px;
+      }
+
+      .click-note,
+      .hint {
+        padding: 0 10px;
+      }
+
+      .scene.stage-1 .paper-1 {
+        transform: translate(-50%, -150px) rotate(-1deg);
+      }
+
+      .scene.stage-2 .paper-1 {
+        transform: translate(-58%, -92px) scale(0.92) rotate(-6deg);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .tag {
+        font-size: 12px;
+        padding: 7px 14px;
+      }
+
+      .scene {
+        height: 708px;
+      }
+
+      .memory-wall {
+        top: 36px;
+        transform: translateX(-50%) scale(0.54);
+      }
+
+      .envelope-area {
+        width: min(100%, 360px);
+        height: 308px;
+      }
+
+      .flap {
+        top: 22px;
+        border-left-width: 176px;
+        border-right-width: 176px;
+        border-bottom-width: 130px;
+      }
+
+      .envelope-back {
+        height: 226px;
+      }
+
+      .front {
+        height: 208px;
+      }
+
+      .paper-stack {
+        bottom: 92px;
+        width: 88%;
+      }
+
+      .bouquet-burst {
+        bottom: 128px;
+        width: 188px;
+        height: 236px;
+      }
+
+      .bouquet-rose {
+        width: 74px;
+      }
+
+      .bouquet-rose--6 {
+        width: 66px;
+      }
+
+      .bouquet-wrap--back {
+        width: 138px;
+        height: 104px;
+      }
+
+      .bouquet-wrap--front-left,
+      .bouquet-wrap--front-right {
+        width: 86px;
+        height: 110px;
+      }
+
+      .paper {
+        min-height: 176px;
+        padding: 16px 16px 14px;
+      }
+
+      .paper small {
+        margin-bottom: 8px;
+      }
+
+      .paper p {
+        font-size: 15px;
+        line-height: 1.62;
+      }
+
+      .to {
+        bottom: 54px;
+      }
+
+      .to .label {
+        font-size: 12px;
+      }
+
+      .to .name {
+        font-size: 26px;
+      }
+
+      .scene.stage-1 .paper-1 {
+        transform: translate(-50%, -138px) rotate(-1deg);
+      }
+
+      .scene.stage-2 .paper-1 {
+        transform: translate(-58%, -86px) scale(0.91) rotate(-6deg);
+      }
+
+      button {
+        min-width: 142px;
+      }
+
+      .click-note,
+      .hint {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <main class="wrap">
+    <div class="intro">
+      <div class="tag">ถึงน้องปอ</div>
+      <h1>ของเล็ก ๆ สำหรับวันเหนื่อย ๆ</h1>
+      <p>เปิดอ่านข้อความก่อน แล้วคลิกอีกครั้ง เพื่อรับช่อกุหลาบสีขาว</p>
+    </div>
+
+    <section class="scene stage-0" id="scene">
+      <div class="memory-wall" aria-hidden="true">
+        <figure class="memory-card memory-card--1">
+          <img class="memory-photo" src="./Image_por/S__53886994.jpg" alt="" />
+        </figure>
+        <figure class="memory-card memory-card--2">
+          <img class="memory-photo" src="./Image_por/S__3710995.jpg" alt="" />
+        </figure>
+        <figure class="memory-card memory-card--3">
+          <img class="memory-photo" src="./Image_por/S__53870603.jpg" alt="" />
+        </figure>
+        <figure class="memory-card memory-card--4">
+          <img class="memory-photo" src="./Image_por/S__54124548.jpg" alt="" />
+        </figure>
+        <figure class="memory-card memory-card--5">
+          <img class="memory-photo" src="./Image_por/S__53379097.jpg" alt="" />
+        </figure>
+        <figure class="memory-card memory-card--6">
+          <img class="memory-photo" src="./Image_por/S__53084179.jpg" alt="" />
+        </figure>
+      </div>
+
+      <div class="envelope-area" id="envelopeArea" title="กดที่ซองเพื่อเปิด">
+        <div class="paper-stack">
+          <article class="paper paper-1">
+            <small>ข้อความถึงปอ</small>
+            <p>เด็กชอบกินเเซลม่อน
+ไว้อาทิตย์เดะพี่พาเที่ยวนะครับ
+พี่มีหนูคนเดียวจริงๆ
+มีมีอะไรมาให้ด้วย</p>
+          </article>
+        </div>
+
+        <div class="envelope-back"></div>
+        <div class="flap"></div>
+        <div class="seal"><span>♡</span></div>
+
+        <div class="front">
+          <div class="front-center"></div>
+        </div>
+
+        <div class="to">
+          <div class="label">To</div>
+          <div class="name">ปอ</div>
+        </div>
+
+        <div class="bouquet-burst" aria-hidden="true">
+          <div class="bouquet">
+            <div class="bouquet-wrap bouquet-wrap--back"></div>
+
+            <div class="rose-cluster">
+              <img class="bouquet-rose bouquet-rose--1" src="./Image_por/images_rose_cutout.png" alt="" />
+              <img class="bouquet-rose bouquet-rose--2" src="./Image_por/images_rose_cutout.png" alt="" />
+              <img class="bouquet-rose bouquet-rose--3" src="./Image_por/images_rose_cutout.png" alt="" />
+              <img class="bouquet-rose bouquet-rose--4" src="./Image_por/images_rose_cutout.png" alt="" />
+              <img class="bouquet-rose bouquet-rose--5" src="./Image_por/images_rose_cutout.png" alt="" />
+              <img class="bouquet-rose bouquet-rose--6" src="./Image_por/images_rose_cutout.png" alt="" />
+            </div>
+
+            <div class="bouquet-wrap bouquet-wrap--front-left"></div>
+            <div class="bouquet-wrap bouquet-wrap--front-right"></div>
+            <div class="bouquet-band"></div>
+            <div class="bouquet-bow">
+              <span class="loop left"></span>
+              <span class="loop right"></span>
+              <span class="knot"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="floor"></div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button class="next-btn" id="nextBtn">แตะเปิดซอง</button>
+      <button class="reset-btn" id="resetBtn">เริ่มใหม่</button>
+    </div>
+
+    <div class="click-note">กดที่ซองหรือกดปุ่มก็ได้</div>
+    <div class="hint" id="hint">กดครั้งแรกเพื่ออ่านข้อความ แล้วกดอีกครั้งเพื่อรับช่อกุหลาบสีขาว</div>
+  </main>
+
+  <script>
+    const scene = document.getElementById("scene");
+    const envelopeArea = document.getElementById("envelopeArea");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const hint = document.getElementById("hint");
+
+    const buttonLabels = [
+      "แตะเปิดซอง",
+      "รับช่อกุหลาบ",
+      "ดูใหม่",
+    ];
+
+    const hintLabels = [
+      "กดครั้งแรกเพื่ออ่านข้อความ แล้วกดอีกครั้งเพื่อรับช่อกุหลาบสีขาว",
+      "อ่านข้อความเสร็จแล้ว กดอีกทีแล้วช่อกุหลาบจะเด้งออกมา",
+      "ช่อกุหลาบสีขาวมาแล้ว ถ้าอยากดูใหม่กดเริ่มใหม่ได้เลย",
+    ];
+
+    let stage = 0;
+
+    function advanceStage() {
+      stage = stage === 2 ? 0 : stage + 1;
+      renderStage();
+    }
+
+    function renderStage() {
+      scene.className = "scene stage-" + stage;
+      nextBtn.textContent = buttonLabels[stage];
+      hint.textContent = hintLabels[stage];
+    }
+
+    envelopeArea.addEventListener("click", advanceStage);
+    nextBtn.addEventListener("click", advanceStage);
+
+    resetBtn.addEventListener("click", () => {
+      stage = 0;
+      renderStage();
+    });
+
+    renderStage();
+  </script>
+</body>
+</html>
